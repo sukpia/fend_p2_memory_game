@@ -10,6 +10,13 @@ let cards = ["fa fa-diamond", "fa fa-paper-plane-o", "fa fa-anchor", "fa fa-bolt
              "fa fa-cube", "fa fa-leaf", "fa fa-bicycle", "fa fa-bomb",
              "fa fa-diamond", "fa fa-paper-plane-o", "fa fa-anchor", "fa fa-bolt",
              "fa fa-cube", "fa fa-leaf", "fa fa-bicycle", "fa fa-bomb"];
+
+/*
+ * Display the cards on the page
+ *  - shuffle the list of cards using the provided "shuffle" method below
+ *  - loop through each card and create its html
+ *  - add the cards' html to the page
+*/
 // Shuffle the cards before create the li element
 shuffle(cards);
 // create the li element for all 16 cards
@@ -22,12 +29,6 @@ cards.forEach(function(card) {
 // add the li elements to the HTML page
 myDeck.appendChild(fragment);
 
-/*
- * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method below
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
- */
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -37,12 +38,8 @@ function shuffle(array) {
         randomIndex = Math.floor(Math.random() * currentIndex);
         currentIndex -= 1;
         temporaryValue = array[currentIndex];
-        //console.log(currentIndex + ": " + array[currentIndex].getAttribute('class'));
-		    //console.log(randomIndex + ": " + array[randomIndex].getAttribute('class'));
         array[currentIndex] = array[randomIndex];
         array[randomIndex] = temporaryValue;
-        // array[currentIndex].setAttribute('class', array[randomIndex].getAttribute('class'));// = array[randomIndex];
-        // array[randomIndex].setAttribute('class', temporaryValue.getAttribute('class'));// = temporaryValue;
     }
     return array;
 }
