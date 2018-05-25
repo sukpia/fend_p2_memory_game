@@ -28,8 +28,6 @@ cards.forEach(function(card) {
 });
 // add the li elements to the HTML page
 myDeck.appendChild(fragment);
-
-
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
     let currentIndex = array.length, temporaryValue, randomIndex;
@@ -44,7 +42,6 @@ function shuffle(array) {
     return array;
 }
 
-
 /*
  * set up the event listener for a card. If a card is clicked:
  *  - display the card's symbol (put this functionality in another function that you call from this one)
@@ -55,3 +52,10 @@ function shuffle(array) {
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
+// Add event listener to respond to card click event
+myDeck.addEventListener("click", displayCard, false);
+
+// function that open card that is clicked by user
+function displayCard(evt) {
+  evt.target.setAttribute('class', 'card open show');
+}
