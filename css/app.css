@@ -115,3 +115,58 @@ h1 {
     float: right;
     cursor: pointer;
 }
+
+#win-page {
+  display: none;
+  min-height: 100vh;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.normal-text {
+  text-align: center;
+}
+
+.button-play {
+  background-color: dodgerblue;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  padding: 10px;
+  width: 150px;
+  margin: 20px;
+  cursor: pointer;
+}
+
+.circle {
+  font-size: 1.5em;
+  vertical-align: middle;
+  line-height: 50px; /* this make vertical center*/
+  font-weight: bold;
+  color: white;
+  background: mediumspringgreen;
+  width: 50px;
+  height: 50px;
+  position: relative;
+  text-align: center;
+  border-radius: 50%;
+  transition-property: width height line-height font-size;
+  transition-duration: 1s;
+}
+
+.circle1 {
+  font-size: 2.5em;
+  vertical-align: middle;
+  line-height: 100px; /* this make vertical center*/
+  font-weight: bold;
+  color: white;
+  background: mediumspringgreen;
+  width: 100px;
+  height: 100px;
+  position: relative;
+  text-align: center;
+  border-radius: 50%;
+  transition-property: width height line-height font-size;
+  transition-duration: 0.5s;
+}

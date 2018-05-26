@@ -1,6 +1,4 @@
-/*
- * Create a list that holds all of your cards
- */
+// Set all variables
 // set the ul in HTML page to a constant
 const myDeck = document.querySelector('.deck');
 // create an empty DocumentFragment object for performance
@@ -10,7 +8,13 @@ let cards = ["fa fa-diamond", "fa fa-paper-plane-o", "fa fa-anchor", "fa fa-bolt
              "fa fa-cube", "fa fa-leaf", "fa fa-bicycle", "fa fa-bomb",
              "fa fa-diamond", "fa fa-paper-plane-o", "fa fa-anchor", "fa fa-bolt",
              "fa fa-cube", "fa fa-leaf", "fa fa-bicycle", "fa fa-bomb"];
-
+// create an array list of open cards
+let openCards = [];
+let lockedCards = [];
+let count = 0;
+let winPage = document.getElementById('win-page');
+let gamePage = document.getElementById('game-page');
+let buttonPlay = document.querySelector('button');
 /*
  * Display the cards on the page
  *  - shuffle the list of cards using the provided "shuffle" method below
@@ -19,15 +23,20 @@ let cards = ["fa fa-diamond", "fa fa-paper-plane-o", "fa fa-anchor", "fa fa-bolt
 */
 // Shuffle the cards before create the li element
 shuffle(cards);
-// create the li element for all 16 cards
-cards.forEach(function(card) {
-  let li = document.createElement('li');
-  li.setAttribute('class', 'card');
-  li.innerHTML = "<i class='" + card + "'></i>";
-  fragment.appendChild(li);
-});
-// add the li elements to the HTML page
-myDeck.appendChild(fragment);
+createCards();
+
+// create cards function
+function createCards() {
+  // create the li element for all 16 cards
+  cards.forEach(function(card) {
+    let li = document.createElement('li');
+    li.setAttribute('class', 'card');
+    li.innerHTML = "<i class='" + card + "'></i>";
+    fragment.appendChild(li);
+  });
+  // add the li elements to the HTML page
+  myDeck.appendChild(fragment);
+}
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
     let currentIndex = array.length, temporaryValue, randomIndex;
@@ -39,7 +48,7 @@ function shuffle(array) {
         array[currentIndex] = array[randomIndex];
         array[randomIndex] = temporaryValue;
     }
-    return array;
+    //return array;
 }
 
 /*
@@ -54,6 +63,12 @@ function shuffle(array) {
  */
 // Add event listener to respond to card click event
 myDeck.addEventListener("click", displayCard, false);
+// Add event listener to the Play Again button
+buttonPlay.addEventListener('click', function() {
+  restartGame();
+  winPage.style.display = 'none';
+  gamePage.style.display = 'flex';
+});
 // function that open card that is clicked by user
 function displayCard(evt) {
   let el = evt.target
@@ -64,9 +79,6 @@ function displayCard(evt) {
   }
 }
 
-// create an array list of open cards
-let openCards = [];
-let lockedCards = [];
 // add opened card to the list
 function addToOpenList(card) {
   openCards.push(card);
@@ -74,6 +86,7 @@ function addToOpenList(card) {
 // check if the two cards match or not
 function checkCardMatch() {
   if (openCards.length === 2) {
+    moveCounter();
     const c1 = openCards[0].firstElementChild.getAttribute('class');
     const c2 = openCards[1].firstElementChild.getAttribute('class');
     if (c1 === c2) {
@@ -81,7 +94,6 @@ function checkCardMatch() {
     } else {
       notMatch();
     }
-    moveCounter();
   }
 }
 // if the cards match, store them in the lockedCards array
@@ -92,8 +104,15 @@ function match() {
   lockedCards.push(openCards[0]);
   lockedCards.push(openCards[1]);
   openCards = [];
+  // you won the game, display the winning page
   if (lockedCards.length === 16) {
-
+    document.getElementById('count-text').textContent = count;
+    winPage.style.display = 'flex';
+    gamePage.style.display = 'none';
+    setTimeout(function() {
+      let el = document.querySelector('.circle');
+      el.className = 'circle1';
+    }, 100);
   }
 }
 // if the cards not match, add them to not-match class
@@ -113,8 +132,33 @@ function notMatch() {
 
 }
 // count how many times i clicked two cards
-let count = 0;
 function moveCounter() {
   count += 1;
   document.querySelector('.moves').textContent = count;
 }
+
+function restartGame() {
+  // Removing all cards from an deck
+  while (myDeck.firstChild) {
+    myDeck.removeChild(myDeck.firstChild);
+  }
+
+  shuffle(cards);
+  createCards();
+  count = 0;
+  document.querySelector('.moves').textContent = 0;
+  openCards = [];
+  lockedCards = [];
+}
+
+function updateTransition() {
+  let el = document.querySelector('.circle');
+  if (el) {
+    el.className = "circle1";
+  } else {
+    el = document.querySelector('.circle1');
+    el.className = 'circle'
+  }
+}
+
+// let intervalID = window.setInterval(updateTransition, 500);
