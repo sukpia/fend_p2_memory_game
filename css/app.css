@@ -67,6 +67,7 @@ h1 {
 
 .deck .card.open {
     transform: rotateY(0);
+    transition: transform 0.5s;
     background: #02b3e4;
     cursor: default;
 }
@@ -79,6 +80,13 @@ h1 {
     cursor: default;
     background: #02ccba;
     font-size: 33px;
+}
+
+.deck .card.not-match {
+  background: #f45b3d;
+  transform: rotate(5deg);
+  transition-property: background tranform;
+  transition-duration: 0.5s;
 }
 
 /*

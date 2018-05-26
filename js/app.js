@@ -54,8 +54,67 @@ function shuffle(array) {
  */
 // Add event listener to respond to card click event
 myDeck.addEventListener("click", displayCard, false);
-
 // function that open card that is clicked by user
 function displayCard(evt) {
-  evt.target.setAttribute('class', 'card open show');
+  let el = evt.target
+  if (el.tagName === 'LI') {
+    el.setAttribute('class', 'card open show');
+    addToOpenList(el);
+    checkCardMatch();
+  }
+}
+
+// create an array list of open cards
+let openCards = [];
+let lockedCards = [];
+// add opened card to the list
+function addToOpenList(card) {
+  openCards.push(card);
+}
+// check if the two cards match or not
+function checkCardMatch() {
+  if (openCards.length === 2) {
+    const c1 = openCards[0].firstElementChild.getAttribute('class');
+    const c2 = openCards[1].firstElementChild.getAttribute('class');
+    if (c1 === c2) {
+      match();
+    } else {
+      notMatch();
+    }
+    moveCounter();
+  }
+}
+// if the cards match, store them in the lockedCards array
+// add class match to the card
+function match() {
+  openCards[0].setAttribute('class', 'card open show match');
+  openCards[1].setAttribute('class', 'card open show match');
+  lockedCards.push(openCards[0]);
+  lockedCards.push(openCards[1]);
+  openCards = [];
+  if (lockedCards.length === 16) {
+
+  }
+}
+// if the cards not match, add them to not-match class
+// remove them from openCards array
+function notMatch() {
+  openCards.forEach(function(card) {
+    card.classList.add('not-match');
+  });
+
+  setTimeout(function() {
+    let els = openCards; // somehow i can't use openCards array here
+    els.forEach(function(el) {
+      el.setAttribute('class', 'card');
+    });
+    openCards = [];
+  }, 500);
+
+}
+// count how many times i clicked two cards
+let count = 0;
+function moveCounter() {
+  count += 1;
+  document.querySelector('.moves').textContent = count;
 }
