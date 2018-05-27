@@ -15,7 +15,7 @@ let count = 0;
 let winPage = document.getElementById('win-page');
 let gamePage = document.getElementById('game-page');
 let buttonPlay = document.querySelector('button');
-let myStars = document.querySelector('.stars');
+
 /*
  * Display the cards on the page
  *  - shuffle the list of cards using the provided "shuffle" method below
@@ -75,12 +75,6 @@ buttonPlay.addEventListener('click', function() {
 // Add event listener to restart game
 document.querySelector('.restart').addEventListener('click', function() {
   restartGame();
-});
-// Add event listener to stars
-myStars.addEventListener('click', function(evt) {
-  console.log(evt.target.classList);
-  evt.target.classList.toggle('fa-star');
-  evt.target.classList.toggle('fa-star-o');
 });
 
 // function that open card that is clicked by user
@@ -150,6 +144,13 @@ function notMatch() {
 function moveCounter() {
   count += 1;
   document.querySelector('.moves').textContent = count;
+  // star rating
+  if (count > 20) {
+    document.getElementById('star3').className = 'fa fa-star-o';
+    document.getElementById('star2').className = 'fa fa-star-o';
+  } else if (count > 12) {
+    document.getElementById('star3').className = 'fa fa-star-o';
+  }
 }
 // call this to reshuffle the cards and reset all counters
 function restartGame() {
@@ -164,4 +165,7 @@ function restartGame() {
   document.querySelector('.moves').textContent = 0;
   openCards = [];
   lockedCards = [];
+  document.getElementById('star3').className = 'fa fa-star';
+  document.getElementById('star2').className = 'fa fa-star';
+  document.getElementById('star1').className = 'fa fa-star';
 }
