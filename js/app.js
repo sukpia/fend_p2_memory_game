@@ -97,8 +97,9 @@ document.querySelector('.restart').addEventListener('click', function() {
 function displayCard(evt) {
   let el = evt.target
   selectedCardId = el.getAttribute('id');
-  // if clicking card and no more than 2 cards click, display cards
-  if (el.tagName === 'LI' && openCards.length < 2) {
+  // if clicking card, no more than 2 cards click and not match
+  // display cards
+  if (el.tagName === 'LI' && openCards.length < 2 && !el.classList.contains('match')) {
     el.setAttribute('class', 'card open show');
     addToOpenList(el);
     checkCardMatch();
