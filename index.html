@@ -23,10 +23,12 @@
         	</ul>
 
         	<span class="moves">0</span> Moves
-
-            <div class="restart">
-        		<i class="fa fa-repeat"></i>
-        	</div>
+          <div class="timer">
+            <span id="minutes"></span>:<span id="seconds"></span>
+          </div>
+          <div class="restart">
+      		  <i class="fa fa-repeat"></i>
+      	  </div>
         </section>
 
         <ul class="deck">
@@ -36,8 +38,12 @@
       <div class="circle"><span>&#10003;<span></div>
       <h1>Congratulations! You Won!</h1>
       <div class="normal-text">
-        With <span id="count-moves"></span> Moves and <span id="count-star"></span> star.<br>
-        WOOOOOOO!
+        You've earned <span id="count-star"></span> stars with <span id="count-moves"></span> Moves.<br>
+        WOOOOO! You've finished in <span id="count-time"></span><br>
+        <br>
+        3 stars - 15 and less moves.<br>
+        2 stars - 25 and less moves.<br>
+        1 star - more than 25 moves.
       </div>
       <button class="button-play">Play Again</button>
     </div>

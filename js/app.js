@@ -15,7 +15,19 @@ let count = 0;
 let winPage = document.getElementById('win-page');
 let gamePage = document.getElementById('game-page');
 let buttonPlay = document.querySelector('button');
+let sec = 0;
+let timerID, selectedCardId;
 
+// start timer
+function startTimer() {
+  // timer function from https://stackoverflow.com/questions/5517597/plain-count-up-timer-in-javascript
+  function pad (val) {return val > 9 ? val : "0" + val; }
+
+  timerID = setInterval( function() {
+    document.getElementById('seconds').innerHTML = pad(++sec%60);
+    document.getElementById('minutes').innerHTML = pad(parseInt(sec/60,10));
+  }, 1000);
+}
 /*
  * Display the cards on the page
  *  - shuffle the list of cards using the provided "shuffle" method below
@@ -23,15 +35,19 @@ let buttonPlay = document.querySelector('button');
  *  - add the cards' html to the page
 */
 // Shuffle the cards before create the li element
+startTimer();
 shuffle(cards);
 createCards();
 
 // create cards function
 function createCards() {
   // create the li element for all 16 cards
+  let i = 0;
   cards.forEach(function(card) {
+    i++;
     let li = document.createElement('li');
     li.setAttribute('class', 'card');
+    li.setAttribute('id', 'c'+i);
     li.innerHTML = "<i class='" + card + "'></i>";
     fragment.appendChild(li);
   });
@@ -80,7 +96,9 @@ document.querySelector('.restart').addEventListener('click', function() {
 // function that open card that is clicked by user
 function displayCard(evt) {
   let el = evt.target
-  if (el.tagName === 'LI') {
+  selectedCardId = el.getAttribute('id');
+  // if clicking card and no more than 2 cards click, display cards
+  if (el.tagName === 'LI' && openCards.length < 2) {
     el.setAttribute('class', 'card open show');
     addToOpenList(el);
     checkCardMatch();
@@ -89,15 +107,21 @@ function displayCard(evt) {
 
 // add opened card to the list
 function addToOpenList(card) {
+  // If clicking the same card, don't add to the list
+  if (openCards.length === 1) {
+    if (openCards[0].getAttribute('id') === selectedCardId) {
+      return;
+    }
+  }
   openCards.push(card);
 }
 // check if the two cards match or not
 function checkCardMatch() {
   if (openCards.length === 2) {
     moveCounter();
-    const c1 = openCards[0].firstElementChild.getAttribute('class');
-    const c2 = openCards[1].firstElementChild.getAttribute('class');
-    if (c1 === c2) {
+    const card1 = openCards[0].firstElementChild.getAttribute('class');
+    const card2 = openCards[1].firstElementChild.getAttribute('class');
+    if (card1 === card2) {
       match();
     } else {
       notMatch();
@@ -114,16 +138,23 @@ function match() {
   openCards = [];
   // you won the game, display the winning page
   if (lockedCards.length === 16) {
-    document.getElementById('count-moves').textContent = count;
-    document.getElementById('count-star').textContent = document.querySelectorAll('.fa-star').length;
-    winPage.style.display = 'flex';
-    gamePage.style.display = 'none';
-    setTimeout(function() {
-      let el = document.querySelector('.circle');
-      el.className = 'circle1';
-    }, 100);
+    setTimeout(winGame, 1000);
   }
 }
+// display count data and winning page
+function winGame() {
+  clearInterval(timerID);
+  document.getElementById('count-moves').textContent = count;
+  document.getElementById('count-star').textContent = document.querySelectorAll('.fa-star').length;
+  document.getElementById('count-time').textContent = document.querySelector('.timer').textContent;
+  winPage.style.display = 'flex';
+  gamePage.style.display = 'none';
+  setTimeout(function() {
+    let el = document.querySelector('.circle');
+    el.className = 'circle1';
+  }, 100);
+}
+
 // if the cards not match, add them to not-match class
 // remove them from openCards array
 function notMatch() {
@@ -137,7 +168,7 @@ function notMatch() {
       el.setAttribute('class', 'card');
     });
     openCards = [];
-  }, 500);
+  }, 1000);
 
 }
 // count how many times i clicked two cards
@@ -145,27 +176,30 @@ function moveCounter() {
   count += 1;
   document.querySelector('.moves').textContent = count;
   // star rating
-  if (count > 20) {
+  if (count > 25) {
     document.getElementById('star3').className = 'fa fa-star-o';
     document.getElementById('star2').className = 'fa fa-star-o';
-  } else if (count > 12) {
+  } else if (count > 15) {
     document.getElementById('star3').className = 'fa fa-star-o';
   }
 }
 // call this to reshuffle the cards and reset all counters
 function restartGame() {
-  // Removing all cards from an deck
-  while (myDeck.firstChild) {
-    myDeck.removeChild(myDeck.firstChild);
-  }
-
-  shuffle(cards);
-  createCards();
+  clearInterval(timerID);
   count = 0;
+  sec = 0;
+  startTimer();
   document.querySelector('.moves').textContent = 0;
   openCards = [];
   lockedCards = [];
   document.getElementById('star3').className = 'fa fa-star';
   document.getElementById('star2').className = 'fa fa-star';
   document.getElementById('star1').className = 'fa fa-star';
+  // Removing all cards from an deck
+  while (myDeck.firstChild) {
+    myDeck.removeChild(myDeck.firstChild);
+  }
+  shuffle(cards);
+  createCards();
+
 }
