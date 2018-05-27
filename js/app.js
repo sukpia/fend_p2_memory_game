@@ -67,6 +67,8 @@ myDeck.addEventListener("click", displayCard, false);
 // Add event listener to the Play Again button
 buttonPlay.addEventListener('click', function() {
   restartGame();
+  let el = document.querySelector('.circle1');
+  el.className = 'circle';
   winPage.style.display = 'none';
   gamePage.style.display = 'flex';
 });
