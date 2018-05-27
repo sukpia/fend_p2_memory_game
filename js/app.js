@@ -151,7 +151,7 @@ function moveCounter() {
   count += 1;
   document.querySelector('.moves').textContent = count;
 }
-
+// call this to reshuffle the cards and reset all counters
 function restartGame() {
   // Removing all cards from an deck
   while (myDeck.firstChild) {
@@ -165,15 +165,3 @@ function restartGame() {
   openCards = [];
   lockedCards = [];
 }
-
-function updateTransition() {
-  let el = document.querySelector('.circle');
-  if (el) {
-    el.className = "circle1";
-  } else {
-    el = document.querySelector('.circle1');
-    el.className = 'circle'
-  }
-}
-
-// let intervalID = window.setInterval(updateTransition, 500);
