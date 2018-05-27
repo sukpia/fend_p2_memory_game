@@ -15,6 +15,7 @@ let count = 0;
 let winPage = document.getElementById('win-page');
 let gamePage = document.getElementById('game-page');
 let buttonPlay = document.querySelector('button');
+let myStars = document.querySelector('.stars');
 /*
  * Display the cards on the page
  *  - shuffle the list of cards using the provided "shuffle" method below
@@ -71,7 +72,13 @@ buttonPlay.addEventListener('click', function() {
 });
 // Add event listener to restart game
 document.querySelector('.restart').addEventListener('click', function() {
-  restartGame();  
+  restartGame();
+});
+// Add event listener to stars
+myStars.addEventListener('click', function(evt) {
+  console.log(evt.target.classList);
+  evt.target.classList.toggle('fa-star');
+  evt.target.classList.toggle('fa-star-o');
 });
 
 // function that open card that is clicked by user
@@ -111,7 +118,8 @@ function match() {
   openCards = [];
   // you won the game, display the winning page
   if (lockedCards.length === 16) {
-    document.getElementById('count-text').textContent = count;
+    document.getElementById('count-moves').textContent = count;
+    document.getElementById('count-star').textContent = document.querySelectorAll('.fa-star').length;
     winPage.style.display = 'flex';
     gamePage.style.display = 'none';
     setTimeout(function() {
