@@ -1,6 +1,9 @@
 // Set all variables
-// set the ul in HTML page to a constant
+// set HTML elements to a constant
 const myDeck = document.querySelector('.deck');
+const winPage = document.getElementById('win-page');
+const gamePage = document.getElementById('game-page');
+const buttonPlay = document.querySelector('button');
 // create an empty DocumentFragment object for performance
 let fragment = document.createDocumentFragment();
 // an array of 8 pair cards
@@ -10,17 +13,17 @@ let cards = ["fa fa-diamond", "fa fa-paper-plane-o", "fa fa-anchor", "fa fa-bolt
              "fa fa-cube", "fa fa-leaf", "fa fa-bicycle", "fa fa-bomb"];
 // create an array list of open cards
 let openCards = [];
+// create array for lockedCards, cards that matched
 let lockedCards = [];
+// creat counter variable for counting moves
 let count = 0;
-let winPage = document.getElementById('win-page');
-let gamePage = document.getElementById('game-page');
-let buttonPlay = document.querySelector('button');
+// variables for timer
 let sec = 0;
 let timerID, selectedCardId;
 
-// start timer
+// start timer function
+// timer function from https://stackoverflow.com/questions/5517597/plain-count-up-timer-in-javascript
 function startTimer() {
-  // timer function from https://stackoverflow.com/questions/5517597/plain-count-up-timer-in-javascript
   function pad (val) {return val > 9 ? val : "0" + val; }
 
   timerID = setInterval( function() {
@@ -34,9 +37,11 @@ function startTimer() {
  *  - loop through each card and create its html
  *  - add the cards' html to the page
 */
-// Shuffle the cards before create the li element
+// start the timer when page load
 startTimer();
+// Shuffle the cards
 shuffle(cards);
+// create the card elements to the page
 createCards();
 
 // create cards function
@@ -54,6 +59,7 @@ function createCards() {
   // add the li elements to the HTML page
   myDeck.appendChild(fragment);
 }
+
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
     let currentIndex = array.length, temporaryValue, randomIndex;
@@ -186,13 +192,17 @@ function moveCounter() {
 }
 // call this to reshuffle the cards and reset all counters
 function restartGame() {
+  // reset timer
   clearInterval(timerID);
-  count = 0;
   sec = 0;
   startTimer();
+  // reset move counter
+  count = 0;
   document.querySelector('.moves').textContent = 0;
+  // empty the cards tracking arrays
   openCards = [];
   lockedCards = [];
+  // reset the star rating
   document.getElementById('star3').className = 'fa fa-star';
   document.getElementById('star2').className = 'fa fa-star';
   document.getElementById('star1').className = 'fa fa-star';
@@ -200,6 +210,7 @@ function restartGame() {
   while (myDeck.firstChild) {
     myDeck.removeChild(myDeck.firstChild);
   }
+  // Shuffle and create a new set of cards
   shuffle(cards);
   createCards();
 
