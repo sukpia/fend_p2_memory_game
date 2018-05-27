@@ -69,6 +69,11 @@ buttonPlay.addEventListener('click', function() {
   winPage.style.display = 'none';
   gamePage.style.display = 'flex';
 });
+// Add event listener to restart game
+document.querySelector('.restart').addEventListener('click', function() {
+  restartGame();  
+});
+
 // function that open card that is clicked by user
 function displayCard(evt) {
   let el = evt.target
