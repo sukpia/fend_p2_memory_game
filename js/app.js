@@ -7,10 +7,11 @@ const buttonPlay = document.querySelector('button');
 // create an empty DocumentFragment object for performance
 let fragment = document.createDocumentFragment();
 // an array of 8 pair cards
-let cards = ["fa fa-diamond", "fa fa-paper-plane-o", "fa fa-anchor", "fa fa-bolt",
-             "fa fa-cube", "fa fa-leaf", "fa fa-bicycle", "fa fa-bomb",
-             "fa fa-diamond", "fa fa-paper-plane-o", "fa fa-anchor", "fa fa-bolt",
+let cardSet1 = ["fa fa-diamond", "fa fa-paper-plane-o", "fa fa-anchor", "fa fa-bolt",
              "fa fa-cube", "fa fa-leaf", "fa fa-bicycle", "fa fa-bomb"];
+let cardSet2 = ["fa fa-diamond", "fa fa-paper-plane-o", "fa fa-anchor", "fa fa-bolt",
+            "fa fa-cube", "fa fa-leaf", "fa fa-bicycle", "fa fa-bomb"];
+let cards = cardSet1.concat(cardSet2);
 // create an array list of open cards
 let openCards = [];
 // create array for lockedCards, cards that matched
@@ -101,7 +102,7 @@ document.querySelector('.restart').addEventListener('click', function() {
 
 // function that open card that is clicked by user
 function displayCard(evt) {
-  let el = evt.target
+  let el = evt.target;
   selectedCardId = el.getAttribute('id');
   // if clicking card, no more than 2 cards click and not match
   // display cards
